@@ -9,40 +9,34 @@ The [Reuse Tool](https://reuse.software/) must be used for your samples project.
 3. The README.md file (this file):
 Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
 
-# Session ID - Session Title
+# DA263 - Knowledge graph and agent memory: Build an agent that remembers
 
 ## Description
 
-This repository contains the material for the SAP TechEd 2026 session called Session ID - Session Title.  
+This repository contains the material for the SAP TechEd 2026 session called DA263 - Knowledge graph and agent memory: Build an agent that remembers.  
 
 ## Overview
 
-This session introduces attendees to...
+This session introduces attendees to SAP HANA Cloud AI features - semantic search, LLM access, and Knowledge Graph engine. It also covers the Data Exploration Tools, i.e. a wizard in SAP HANA Cloud Central to create an object index of database objects and build-in procedures to discover database objects and retrieve data using natural language. Finally, we will show how to connect SAP HANA Cloud to LangChain.
 
 ## Requirements
 
-The requirements to follow the exercises in this repository are...
+To run the exercises, you need a SQL console (part of SAP HANA Cloud Central) and a python Jupyter environment (provided with VS Code).
 
 ## Exercises
 
-Provide the exercise content here directly in README.md using [markdown](https://guides.github.com/features/mastering-markdown/) and linking to the specific exercise pages, below is an example.
+- [intro, scen descr or somethin](exercises/ex0/)
+- [Exercise 1 - SAP HANA Cloud AI features](exercises/ex1/)
+    - [Exercise 1.1 - Exploring the Formula 1 Dataset](exercises/ex1_1)
+    - [Exercise 1.2 - Building the Object Index](exercises/ex1_2)
+    - [Exercise 1.3 - Vector Embeddings and Semantic Search](exercises/ex1_3)
+    - [Exercise 1.4 - Keeping Embeddings in Sync](exercises/ex1_4)
+    - [Exercise 1.5 - Cross-Encoder Reranking and the Semantic Search Function](exercises/ex1_5)
+    - [Exercise 1.6 - LLM Integration via SAP AI Core](exercises/ex1_6)
+    - [Exercise 1.7 - Building the Knowledge Graph](exercises/ex1_7)
+    - [Exercise 1.8 - End-to-End Verification](exercises/ex1_8)
+- [Exercise 2 - Data Exploration Tools](exercises/ex2/)
 
-- [Getting Started](exercises/ex0/)
-- [Exercise 1 - First Exercise Description](exercises/ex1/)
-    - [Exercise 1.1 - Exercise 1 Sub Exercise 1 Description](exercises/ex1#exercise-11-sub-exercise-1-description)
-    - [Exercise 1.2 - Exercise 1 Sub Exercise 2 Description](exercises/ex1#exercise-12-sub-exercise-2-description)
-- [Exercise 2 - Second Exercise Description](exercises/ex2/)
-    - [Exercise 2.1 - Exercise 2 Sub Exercise 1 Description](exercises/ex2#exercise-21-sub-exercise-1-description)
-    - [Exercise 2.2 - Exercise 2 Sub Exercise 2 Description](exercises/ex2#exercise-22-sub-exercise-2-description)
-
-  
-**OR** Link to the Tutorial Navigator for example...
-
-Start the exercises [here](https://developers.sap.com/tutorials/abap-environment-trial-onboarding.html).
-
-**IMPORTANT**
-
-Your repo must contain the .reuse and LICENSES folder and the License section below. DO NOT REMOVE the section or folders/files. Also, remove all unused template assets(images, folders, etc) from the exercises folder. 
 
 ## Contributing
 Please read the [CONTRIBUTING.md](./CONTRIBUTING.md) to understand the contribution guidelines.
