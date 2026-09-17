@@ -14,4 +14,6 @@ In exercise 3.3 we will build a naive LangGraph agent (rather: a workflow) that 
 
 ![](../ex3/images/Picture3.png)
 
-Continue to - [Exercise 3.1 - Work with SAP HANA Cloud Vector Engine from LangChain](../ex3/2026 Q3 TechEd 2026 DA263 LC Vector.ipynb)
+Continue to - [Exercise 3.1 - Work with SAP HANA Cloud Vector Engine from LangChain](../ex3/2026%20Q3%20TechEd%202026%20DA263%20LC%20Vector.ipynb)
+Continue to - [Exercise 3.2 - Work with SAP HANA Cloud Knowledge Graph Engine from LangChain](../ex3/2026%20Q3%20TechEd%202026%20DA263%20LC%20RDF%20Graph.ipynb)
+Continue to - [Exercise 3.3 - Build a Basic LangGraph Agent for Natural Language to SQL](../ex3/2026%20Q3%20TechEd%202026%20DA263%20LC%20LangGraph.ipynb)
