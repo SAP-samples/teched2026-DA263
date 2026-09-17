@@ -1,42 +1,70 @@
-# Exercise 2 - Exercise 2 Description
+# Exercise 2 - Data Exploration Tools
 
-In this exercise, we will create...
+In this exercise, we will create use the Data Exploration Tools and complete the wizard which creates an object index similar to what we created manually in exercise 1. This object index is used by two generated database procedures:
+- "DATABASE_OBJECT_DISCOVERY_TOOL"( query, response );
+- "DATA_RETRIEVAL_TOOL"( query, response );
 
-## Exercise 2.1 Sub Exercise 1 Description
-
-After completing these steps you will have created...
-
-1. Click here.
-<br>![](/exercises/ex2/images/02_01_0010.png)
-
-2.	Insert this line of code.
-```abap
-response->set_text( |Hello ABAP World! | ). 
-```
+`DATABASE_OBJECT_DISCOVERY_TOOL` takes a natural language query and returns relevant database objects, including their descriptions and definitions.
+`DATA_RETRIEVAL_TOOL` takes a natural language query, generates SQL statements, and returns a response grounded in the retrieved data.
 
 
+## Open the Data Exploration Tools
 
-## Exercise 2.2 Sub Exercise 2 Description
+Choose **Instances** on the left panel in SAP HANA Cloud Central, open the context menu for your SAP HANA Cloud instance, and click on `Manage Data Exploration Tools`.
 
-After completing these steps you will have...
+![](../ex2/images/SNAG-0007.png)
 
-1.	Enter this code.
-```abap
-DATA(lt_params) = request->get_form_fields(  ).
-READ TABLE lt_params REFERENCE INTO DATA(lr_params) WITH KEY name = 'cmd'.
-  IF sy-subrc = 0.
-    response->set_status( i_code = 200
-                     i_reason = 'Everything is fine').
-    RETURN.
-  ENDIF.
+Enter your database credentials if required
+<br>**Username** `DA263_000` (replace 000 with your student number, e.g. 001)
+<br>**Password** `welCome!26`
 
-```
+![](../ex2/images/SNAG-0008.png)
 
-2.	Click here.
-<br>![](/exercises/ex2/images/02_02_0010.png)
+We will now create Data Exploration Tools using a wizard
+- Select the remote source `DA263_AICORE_ORCHESTRATION` from the pick-list.
+- Enter `AGENT_000` (replace 000 with your student number, e.g. 001) as Tool Pair Name.
+- Keep the Schema `DA263_000` (replace 000 with your student number, e.g. 001)
+- Enter `ERGAST` as Index.
+
+![](../ex2/images/SNAG-0011.png)
+
+**Add** the database objects which should be exposed via the Data Exploration Tools.
+
+![](../ex2/images/SNAG-0012.png)
+
+Select all the tables in the `ERGAST_2025` schema and confirm the pop-up with **Add**.
+
+![](../ex2/images/SNAG-0013.png)
+
+Finally, click **Create** and wait for the creation process to finish.
+
+![](../ex2/images/SNAG-0014.png)
+
+Click **Refresh** in the upper right to update the status.
+
+![](../ex2/images/SNAG-0016.png)
+
+Once the Tool Pair is `Ready`, click on **Open in SQL Console**.
+
+![](../ex2/images/SNAG-0016a.png)
+
+This brings up two examples on how to use the Data Exploration Tools via generated database procedures. You can now enter your natural language query and run the procedures
+- e.g. 'which driver won the most races?'
+
+**OR**
+
+open the short SQL script [2026 Q3 TechEd 2026 DA263_000 Data Exploration Tools.sql](/SQL/2026%20Q3%20TechEd%202026%20DA263_000%20Data%20Exploration%20Tools.sql).
+
+![](../ex2/images/SNAG-0017.png)
 
 ## Summary
 
-You've now ...
+We have used the Data Exploration Tools in SAP HANA Cloud Central to create an index of database objects. The wizard also generates two database procedures
+- "DATABASE_OBJECT_DISCOVERY_TOOL"( query, response );
+- "DATA_RETRIEVAL_TOOL"( query, response );
+
+`DATABASE_OBJECT_DISCOVERY_TOOL` takes a natural language query and returns relevant database objects, including their descriptions and definitions.
+`DATA_RETRIEVAL_TOOL` takes a natural language query, generates SQL statements, and returns a response grounded in the retrieved data.
+
 
 Continue to - [Exercise 3 - Excercise 3 ](../ex3/README.md)

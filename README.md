@@ -1,23 +1,12 @@
-# Containing Files
-
-1. The LICENSE file:
-In most cases, the license for SAP sample projects is `Apache 2.0`.
-
-2. The REUSE.toml file: 
-The [Reuse Tool](https://reuse.software/) must be used for your samples project. You can find the REUSE.toml in the project initial. Please replace the parts inside the single angle quotation marks < > by the specific information for your repository.
-
-3. The README.md file (this file):
-Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
-
 # DA263 - Knowledge graph and agent memory: Build an agent that remembers
 
 ## Description
 
-This repository contains the material for the SAP TechEd 2026 session called DA263 - Knowledge graph and agent memory: Build an agent that remembers.  
+This repository contains the material for the SAP TechEd 2026 session DA263 - Knowledge graph and agent memory: Build an agent that remembers.  
 
 ## Overview
 
-This session introduces attendees to SAP HANA Cloud AI features - semantic search, LLM access, and Knowledge Graph engine. It also covers the Data Exploration Tools, i.e. a wizard in SAP HANA Cloud Central to create an object index of database objects and build-in procedures to discover database objects and retrieve data using natural language. Finally, we will show how to connect SAP HANA Cloud to LangChain.
+This session introduces attendees to SAP HANA Cloud AI features - semantic search, LLM access, and Knowledge Graph engine. It also covers the Data Exploration Tools which are configured using a wizard in SAP HANA Cloud Central. The Data Exploration Tools leverage an object index of database objects and are exposed via build-in procedures to discover database objects and retrieve data using natural language. Finally, we will show how to connect to SAP HANA Cloud from LangChain.
 
 ## Requirements
 
@@ -25,7 +14,7 @@ To run the exercises, you need a SQL console (part of SAP HANA Cloud Central) an
 
 ## Exercises
 
-- [intro, scen descr or somethin](exercises/ex0/)
+- [Log In to BTP and Open SAP HANA Cloud Central](exercises/ex0/)
 - [Exercise 1 - SAP HANA Cloud AI features](exercises/ex1/)
     - [Exercise 1.1 - Exploring the Formula 1 Dataset](exercises/ex1_1)
     - [Exercise 1.2 - Building the Object Index](exercises/ex1_2)
@@ -36,6 +25,7 @@ To run the exercises, you need a SQL console (part of SAP HANA Cloud Central) an
     - [Exercise 1.7 - Building the Knowledge Graph](exercises/ex1_7)
     - [Exercise 1.8 - End-to-End Verification](exercises/ex1_8)
 - [Exercise 2 - Data Exploration Tools](exercises/ex2/)
+- [Exercise 3 - Using SAP HANA Cloud via LangChain](exercises/ex3/)
 
 
 ## Contributing

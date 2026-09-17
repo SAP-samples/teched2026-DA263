@@ -92,7 +92,8 @@ SELECT * FROM SYS."NLP_VECTOR_EMBEDDING_MODELS";
 -- Use the VECTOR_EMBEDDING scalar function to generate an embedding for any text.
 -- The second argument specifies the input role: 'DOCUMENT' for stored content, 'QUERY' for search terms.
 -- Using the correct role improves retrieval accuracy.
-SELECT "VECTOR_EMBEDDING"('This workshop is about HANA Cloud.', 'DOCUMENT', 'SAP_GXY.20250407') FROM DUMMY;
+SELECT "VECTOR_EMBEDDING"('This workshop is about HANA Cloud.', 'DOCUMENT', 'SAP_GXY.20250407') AS "VECTOR"
+    FROM DUMMY;
 -- The result is a 768-element numeric array. The numbers themselves are not human-readable,
 -- but two vectors with similar semantic content will have a high cosine similarity score (close to 1.0).
 
@@ -371,7 +372,7 @@ SELECT "AI_TEXT_COMPLETION"(
 	'"gpt-4.1"', -- the LLM to be used 
 	NULL, -- the schema name or the remote source
 	'DA263_AICORE_ORCHESTRATION' -- the remote source
-) FROM DUMMY;
+) AS "LLM_RESPONSE" FROM DUMMY;
 
 
 -- Now use AI_TEXT_COMPLETION to generate a description for V_RESULTS automatically.
@@ -387,11 +388,12 @@ SELECT "DA263_ADMIN"."F_GET_OBJECT_DEFINITION"(
 	"SCHEMA_NAME"=>'DA263_ADMIN', 
 	"OBJECT_NAME"=>'F_GET_OBJECT_DEFINITION', 
 	"OBJECT_TYPE"=>'FUNCTION'
-)."DEFINITION" FROM DUMMY;
+)."DEFINITION" AS "DEFINITION" FROM DUMMY;
 
 -- Now call F_GET_OBJECT_DEFINITION for all objects in the OBJECT_INDEX.
 -- Review the DEFINITION column -- this is the text you will pass to the LLM as context for generating descriptions.
-SELECT "SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE", "DESCRIPTION", "DA263_ADMIN"."F_GET_OBJECT_DEFINITION"("SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE")."DEFINITION"
+SELECT "SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE", "DESCRIPTION", 
+    "DA263_ADMIN"."F_GET_OBJECT_DEFINITION"("SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE")."DEFINITION" AS "DEFINITION"
 	FROM "OBJECT_INDEX";
 
 -- The anonymous block below combines everything:

@@ -1,26 +1,25 @@
-# Level 1 Heading
+# Log In to SAP BTP and Open SAP HANA Cloud Central
 
-In this exercise, you will...
+We will use SAP HANA Cloud Central for exercises 1 and 2.
 
-## Level 2 Heading
+Open a browser and point to https://da263.hana-tooling.ingress.orchestration.prod-eu10.hanacloud.ondemand.com/ and sign in with
+<br>**Username** `da263-000@education.cloud.sap` (replace 000 with your student number, e.g. 001)
+<br>**Password** `Acce$$teched26`
 
-After completing these steps you will have....
+![](../ex0/images/SNAG-0000.png)
+![](../ex0/images/SNAG-0001.png)
 
-1.	Click here.
-<br>![](/exercises/ex0/images/00_00_0010.png)
+Choose **SQL Console** on the left panel and click on `Select an Instance `.
+<br>Select `hana-db` and connect with
+<br>**Username** `DA263_000` (replace 000 with your student number, e.g. 001)
+<br>**Password** `welCome!26`
 
-2.	Insert this code.
-``` abap
- DATA(params) = request->get_form_fields(  ).
- READ TABLE params REFERENCE INTO DATA(param) WITH KEY name = 'cmd'.
-  IF sy-subrc <> 0.
-    response->set_status( i_code = 400
-                     i_reason = 'Bad request').
-    RETURN.
-  ENDIF.
-```
+![](../ex0/images/SNAG-0003.png)
+![](../ex0/images/SNAG-0005.png)
+
 
 ## Summary
 
-Now that you have ... 
-Continue to - [Exercise 1 - Exercise 1 Description](../ex1/README.md)
+You are connected to the SAP HANA Cloud database via the SQL Console.
+
+Continue to - [Exercise 1 - SAP HANA Cloud AI features](../ex1/README.md)

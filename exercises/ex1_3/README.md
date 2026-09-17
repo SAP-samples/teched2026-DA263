@@ -12,7 +12,8 @@ SELECT * FROM SYS."NLP_VECTOR_EMBEDDING_MODELS";
 Use the `VECTOR_EMBEDDING` scalar function to generate an embedding for any text. The second argument specifies the input role: `'DOCUMENT'` for stored content, `'QUERY'` for search terms. Using the correct role improves retrieval accuracy.
 
 ```sql
-SELECT "VECTOR_EMBEDDING"('This workshop is about HANA Cloud.', 'DOCUMENT', 'SAP_GXY.20250407') FROM DUMMY;
+SELECT "VECTOR_EMBEDDING"('This workshop is about HANA Cloud.', 'DOCUMENT', 'SAP_GXY.20250407') AS "VECTOR"
+    FROM DUMMY;
 ```
 
 The result is a 768-element numeric array. The numbers themselves are not human-readable, but two vectors with similar semantic content will have a high cosine similarity score (close to 1.0).
