@@ -26,6 +26,9 @@ To run the exercises, you need a SQL console (part of SAP HANA Cloud Central) an
     - [Exercise 1.8 - End-to-End Verification](exercises/ex1_8)
 - [Exercise 2 - Data Exploration Tools](exercises/ex2/)
 - [Exercise 3 - Using SAP HANA Cloud via LangChain](exercises/ex3/)
+    - [Exercise 3.1 - Work with SAP HANA Cloud Vector Engine from LangChain](../ex3/2026 Q3 TechEd 2026 DA263 LC Vector.ipynb)
+    - [Exercise 3.2 - Work with SAP HANA Cloud Knowledge Graph Engine from LangChain](exercises/ex3_2/)
+    - [Exercise 3.2 - Build a Basic LangGraph Agent for Natural Language to SQL](exercises/ex3_3/)
 
 
 ## Contributing

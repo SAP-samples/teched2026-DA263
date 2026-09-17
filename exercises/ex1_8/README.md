@@ -69,5 +69,5 @@ SELECT * FROM SPARQL_TABLE('
 ');
 ```
 
-Continue to - [Exercise 2 - ](../ex2/README.md)
+Continue to - [Exercise 2 - Data Exploration Tools](../ex2/README.md)
 
