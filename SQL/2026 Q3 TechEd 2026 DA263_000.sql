@@ -480,7 +480,7 @@ DO BEGIN
             }
         }
     },
-	"model": {"name": "anthropic--claude-3-haiku","params": {"max_tokens": 5000}}
+	"model": {"name": "anthropic--claude-4.5-haiku","params": {"max_tokens": 5000}}
 }}}}';
 
 	v_llmResponse = "AI_CORE_REQUEST"(NULL,'DA263_AICORE_ORCHESTRATION','v2/completion', :v_llmPayload);
