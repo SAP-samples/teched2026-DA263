@@ -157,8 +157,8 @@ SELECT "COSINE_SIMILARITY"(
 -- The HANA Scheduler allows you to run a stored procedure on a cron-like schedule.
 -- The job below calls CREATE_VECTOR_EMBEDDINGS every 10 seconds, so any newly inserted rows
 -- will have their embeddings generated within the next scheduled run.
--- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001) in all three places below.
-CREATE SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" -- use your own schema name, e.g. DA263_001
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
+CREATE SCHEDULER JOB SJ_RUN_CREATE_VECTOR_EMBEDDINGS" 
 	CRON '* * * * * * */10' -- run every 10 seconds
 	PROCEDURE SYS."CREATE_VECTOR_EMBEDDINGS" -- run this procedure
 	PARAMETERS
@@ -175,7 +175,7 @@ SELECT * FROM SCHEDULER_JOBS
 	WHERE SCHEMA_NAME = 'DA263_000';
 
 -- Enable the job so it starts firing. It will run every 10 seconds.
-ALTER SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" ENABLE;
+ALTER SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" ENABLE;
 
 -- Insert a dummy row with no embedding to simulate a new object being added to the index.
 INSERT INTO "OBJECT_INDEX"("OBJECT_OID", "DESCRIPTION")
@@ -192,10 +192,10 @@ SELECT "OBJECT_NAME", "DESCRIPTION", "DESCRIPTION_EMBEDDING"
 	FROM "OBJECT_INDEX";
 
 -- Once verified, disable the job to stop it from running.
-ALTER SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" DISABLE;
+ALTER SCHEDULER JOB SJ_RUN_CREATE_VECTOR_EMBEDDINGS" DISABLE;
 
 -- Then drop the job definition to clean up.
-DROP SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS";
+DROP SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS";
 
 -- Remove the dummy row to restore the OBJECT_INDEX to its original state.
 DELETE FROM "OBJECT_INDEX" WHERE "OBJECT_OID" = 1;
@@ -552,7 +552,7 @@ CALL SYS.SPARQL_EXECUTE('
 'Accept: application/sparql-results+turtle Content-Type: application/sparql-query', ?, ?);
 
 -- Run this SPARQL query to count how many triples exist per named graph.
--- You should see one graph (te:dummy-graph) with 4 triples.
+-- You should see one graph (te:dummy-graph) with 5 triples.
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?graph (COUNT(*) as ?num_triples)
 	WHERE {
