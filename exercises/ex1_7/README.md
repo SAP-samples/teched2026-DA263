@@ -60,7 +60,7 @@ CALL SYS.SPARQL_EXECUTE('
 'Accept: application/sparql-results+turtle Content-Type: application/sparql-query', ?, ?);
 ```
 
-Run this SPARQL query to count how many triples exist per named graph. You should see one graph (`te:dummy-graph`) with 4 triples.
+Run this SPARQL query to count how many triples exist per named graph. You should see one graph (`te:dummy-graph`) with 5 triples.
 
 ```sql
 SELECT * FROM SPARQL_TABLE('

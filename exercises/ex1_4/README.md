@@ -16,10 +16,10 @@ This section demonstrates both approaches. Start with the async scheduler job.
 
 The HANA Scheduler allows you to run a stored procedure on a cron-like schedule. The job below calls `CREATE_VECTOR_EMBEDDINGS` every 10 seconds, so any newly inserted rows will have their embeddings generated within the next scheduled run.
 
-> **Important:** Replace `'DA263_000'` with your own user schema name (e.g. `DA263_001`) in all three places below.
+> **Important:** Replace `'DA263_000'` with your own user schema name (e.g. `DA263_001`).
 
 ```sql
-CREATE SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" -- use your own schema name, e.g. DA263_001
+CREATE SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" 
 	CRON '* * * * * * */10' -- run every 10 seconds
 	PROCEDURE SYS."CREATE_VECTOR_EMBEDDINGS" -- run this procedure
 	PARAMETERS
@@ -42,7 +42,7 @@ SELECT * FROM SCHEDULER_JOBS
 Enable the job so it starts firing. It will run every 10 seconds.
 
 ```sql
-ALTER SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" ENABLE;
+ALTER SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" ENABLE;
 ```
 
 Insert a dummy row with no embedding to simulate a new object being added to the index.
@@ -69,13 +69,13 @@ SELECT "OBJECT_NAME", "DESCRIPTION", "DESCRIPTION_EMBEDDING"
 Once verified, disable the job to stop it from running.
 
 ```sql
-ALTER SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS" DISABLE;
+ALTER SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" DISABLE;
 ```
 
 Then drop the job definition to clean up.
 
 ```sql
-DROP SCHEDULER JOB "DA263_000"."SJ_RUN_CREATE_VECTOR_EMBEDDINGS";
+DROP SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS";
 ```
 
 Remove the dummy row to restore the `OBJECT_INDEX` to its original state.
