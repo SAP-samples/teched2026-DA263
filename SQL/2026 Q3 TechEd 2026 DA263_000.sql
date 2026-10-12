@@ -106,7 +106,7 @@ SELECT "OBJECT_NAME", "DESCRIPTION", "VECTOR_EMBEDDING"("DESCRIPTION", 'DOCUMENT
 -- Rather than running individual UPDATEs for each row, use the built-in procedure CREATE_VECTOR_EMBEDDINGS.
 -- It reads all rows where the embedding column is NULL, generates the embeddings in batch, and writes them back.
 -- This is more efficient and ensures only missing embeddings are (re-)computed.
--- Update the SCHEMA_NAME parameter below to match your user schema (e.g. DA263_001).
+-- IMPORTANT: Update the SCHEMA_NAME parameter below to match your user schema (e.g. DA263_001).
 CALL "CREATE_VECTOR_EMBEDDINGS"(
     SCHEMA_NAME => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
     TABLE_NAME => 'OBJECT_INDEX',
@@ -171,6 +171,7 @@ CREATE SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS"
 ;
 
 -- Run this query to confirm the scheduler job was created successfully.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SCHEDULER_JOBS
 	WHERE SCHEMA_NAME = 'DA263_000'; -- change this to refer to your own user schema name, e.g. DA263_001
 
@@ -573,6 +574,7 @@ SELECT * FROM SPARQL_TABLE('
 
 -- Run this query to fetch all properties of a specific subject (participant_1).
 -- The OPTIONAL clause retrieves rdfs:label for the object if it has one - demonstrating SPARQL's optional join pattern.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SPARQL_TABLE('
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 	PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -667,11 +669,13 @@ CREATE OR REPLACE GRAPH WORKSPACE "OBJECT_INDEX_PROPERTY_GRAPH"
 		TARGET COLUMN "TARGET_OID" REFERENCES "V_OBJECT_INDEX" KEY COLUMN "SOURCE_OID", "TARGET_OID";
 
 -- Step 2: Verify the graph workspace was created successfully.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SYS."GRAPH_WORKSPACES"
 	WHERE "SCHEMA_NAME" = 'DA263_000'; -- change this to refer to your own user schema name, e.g. DA263_001
 
 -- Inspect the graph schema: each row describes one property (column) of a vertex or edge entity.
 -- These properties will become RDF predicates (e.g. hana:schemaName, hana:objectType) in the next step.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
 	WHERE "WORKSPACE_NAME" = 'OBJECT_INDEX_PROPERTY_GRAPH'
 		AND "SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
@@ -679,6 +683,7 @@ SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
 
 -- Step 3: Convert the property graph to RDF using RDF_GRAPH_FROM_GRAPH_WORKSPACE.
 -- First, run in MAPPING_ONLY mode (dry run) to preview how each graph property maps to an RDF predicate URI.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 DO BEGIN
 	CALL "RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
 		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
@@ -712,7 +717,7 @@ CREATE OR REPLACE VIEW "V_PG_TO_KG_MAPPING_TABLE" AS (
 
 -- Now run the actual RDF conversion using the curated mapping.
 -- MAPPING_MODE => 'STRICT' means only the mappings in the input table are applied.
--- IMPORTANT: Replace 'DA263_000' with your own user schema name in all three parameter values.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name in all parameter values.
 CALL SYS."RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
 		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
@@ -733,6 +738,7 @@ SELECT * FROM SPARQL_TABLE('
 ');
 
 -- Retrieve a sample of raw triples from your named graph to confirm the conversion worked.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?s ?p ?o 
 	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH> # change this to refer to your own user schema name, e.g. DA263_001
@@ -742,6 +748,7 @@ SELECT * FROM SPARQL_TABLE('
 ');
 
 -- Query for all DatabaseObject nodes and their labels.
+-- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
 SELECT * FROM SPARQL_TABLE('
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 	PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

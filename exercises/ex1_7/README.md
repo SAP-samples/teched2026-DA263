@@ -21,7 +21,7 @@ Review the `JOIN_CONDITION` and `JOIN_CARDINALITY` columns. For example: `DRIVER
 
 A second type of relationship is object dependencies: when a view or function references another object, HANA records this in `SYS.OBJECT_DEPENDENCIES`. Run the query below to see which tables `V_RESULTS` depends on.
 
-> **Important:** Replace `'DA263_000'` with your own user schema name.
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
 
 The result shows the four `ERGAST_2025` tables that `V_RESULTS` joins — this dependency chain will be encoded in the graph.
 
@@ -208,12 +208,16 @@ CREATE OR REPLACE GRAPH WORKSPACE "OBJECT_INDEX_PROPERTY_GRAPH"
 
 Verify the graph workspace was created successfully.
 
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
+
 ```sql
 SELECT * FROM SYS."GRAPH_WORKSPACES"
 	WHERE "SCHEMA_NAME" = 'DA263_000';
 ```
 
 Inspect the graph schema: each row describes one property (column) of a vertex or edge entity. These properties will become RDF predicates (e.g. `hana:schemaName`, `hana:objectType`) in the next step.
+
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
 
 ```sql
 SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
@@ -226,12 +230,14 @@ SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
 
 First, run in `MAPPING_ONLY` mode (dry run) to preview how each graph property maps to an RDF predicate URI.
 
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
+
 ```sql
 DO BEGIN
 	CALL "RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
 		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
-		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>',
+		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- change this to refer to your own user schema name, e.g. DA263_001
 		--MAPPING_IN => "AGENT"."MAPPING_TABLE",
 		"MAPPING_OUT" => o_mapping_table,
 		MAPPING_MODE => 'MAPPING_ONLY'		
@@ -296,6 +302,8 @@ SELECT * FROM SPARQL_TABLE('
 
 Retrieve a sample of raw triples from your named graph to confirm the conversion worked.
 
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
+
 ```sql
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?s ?p ?o 
@@ -307,6 +315,8 @@ SELECT * FROM SPARQL_TABLE('
 ```
 
 Query for all `DatabaseObject` nodes and their labels.
+
+> **Important:** Replace `'DA263_000'` with your own user schema name, e.g. `'DA263_001'`.
 
 ```sql
 SELECT * FROM SPARQL_TABLE('
