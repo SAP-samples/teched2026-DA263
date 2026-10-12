@@ -158,7 +158,7 @@ SELECT "COSINE_SIMILARITY"(
 -- The job below calls CREATE_VECTOR_EMBEDDINGS every 10 seconds, so any newly inserted rows
 -- will have their embeddings generated within the next scheduled run.
 -- IMPORTANT: Replace 'DA263_000' with your own user schema name (e.g. DA263_001).
-CREATE SCHEDULER JOB SJ_RUN_CREATE_VECTOR_EMBEDDINGS" 
+CREATE SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" 
 	CRON '* * * * * * */10' -- run every 10 seconds
 	PROCEDURE SYS."CREATE_VECTOR_EMBEDDINGS" -- run this procedure
 	PARAMETERS
