@@ -172,7 +172,7 @@ CREATE SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS"
 
 -- Run this query to confirm the scheduler job was created successfully.
 SELECT * FROM SCHEDULER_JOBS
-	WHERE SCHEMA_NAME = 'DA263_000';
+	WHERE SCHEMA_NAME = 'DA263_000'; -- change this to refer to your own user schema name, e.g. DA263_001
 
 -- Enable the job so it starts firing. It will run every 10 seconds.
 ALTER SCHEDULER JOB "SJ_RUN_CREATE_VECTOR_EMBEDDINGS" ENABLE;
@@ -184,7 +184,8 @@ INSERT INTO "OBJECT_INDEX"("OBJECT_OID", "DESCRIPTION")
 -- Check the job execution history. Wait a few seconds and re-run this query until you see a completed execution.
 -- The START_TIME and END_TIME columns show when each run occurred.
 SELECT * FROM M_SCHEDULER_JOBS
-	WHERE SCHEMA_NAME = 'DA263_000' ORDER BY START_TIME DESC;
+	WHERE SCHEMA_NAME = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
+	ORDER BY START_TIME DESC;
 
 -- After a job execution completes, verify that the embedding was generated for the dummy row.
 -- The DESCRIPTION_EMBEDDING column should no longer be NULL for OBJECT_OID = 1.
@@ -339,7 +340,7 @@ INSERT INTO "OBJECT_INDEX"("OBJECT_OID", "SCHEMA_NAME", "OBJECT_NAME", "OBJECT_T
 SELECT O."OBJECT_OID", O."SCHEMA_NAME", O."OBJECT_NAME", O."OBJECT_TYPE", T."COMMENTS"
 	FROM SYS."OBJECTS" AS O
 	LEFT JOIN SYS."TABLES" AS T ON O."OBJECT_OID" = T."TABLE_OID"
-	WHERE O."SCHEMA_NAME" = 'DA263_000' -- use your own user schema name here
+	WHERE O."SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
 		AND O."OBJECT_NAME" = 'V_RESULTS'
 		AND O."OBJECT_TYPE" IN ('TABLE', 'VIEW', 'FUNCTION');
 
@@ -520,7 +521,7 @@ SELECT * FROM SYS."ASSOCIATIONS"
 -- The result shows the four ERGAST_2025 tables that V_RESULTS joins -- this dependency chain will be encoded in the graph.
 SELECT * 
 	FROM SYS."OBJECT_DEPENDENCIES" 
-	WHERE "DEPENDENT_SCHEMA_NAME" = 'DA263_000'
+	WHERE "DEPENDENT_SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
 		AND "DEPENDENT_OBJECT_NAME" = 'V_RESULTS';
 
 
@@ -539,7 +540,7 @@ SELECT *
 CALL SYS.SPARQL_EXECUTE('
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX te: <http://teched2026/DA263_000/> # change this
+    PREFIX te: <http://teched2026/DA263_000/> # change this to refer to your own user schema name, e.g. DA263_001
     INSERT DATA {
     GRAPH te:dummy-graph {
         te:participant_1 rdf:type te:participant .
@@ -575,7 +576,7 @@ SELECT * FROM SPARQL_TABLE('
 SELECT * FROM SPARQL_TABLE('
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 	PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-	PREFIX te: <http://teched2026/DA263_000/>
+	PREFIX te: <http://teched2026/DA263_000/> # change this to refer to your own user schema name, e.g. DA263_001
 
 	SELECT *
 	WHERE {
@@ -667,22 +668,22 @@ CREATE OR REPLACE GRAPH WORKSPACE "OBJECT_INDEX_PROPERTY_GRAPH"
 
 -- Step 2: Verify the graph workspace was created successfully.
 SELECT * FROM SYS."GRAPH_WORKSPACES"
-	WHERE "SCHEMA_NAME" = 'DA263_000';
+	WHERE "SCHEMA_NAME" = 'DA263_000'; -- change this to refer to your own user schema name, e.g. DA263_001
 
 -- Inspect the graph schema: each row describes one property (column) of a vertex or edge entity.
 -- These properties will become RDF predicates (e.g. hana:schemaName, hana:objectType) in the next step.
 SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
 	WHERE "WORKSPACE_NAME" = 'OBJECT_INDEX_PROPERTY_GRAPH'
-		AND "SCHEMA_NAME" = 'DA263_000'
+		AND "SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
 	ORDER BY "ENTITY_TYPE" DESC, "ENTITY_TABLE_NAME", "ENTITY_COLUMN_NAME";
 
 -- Step 3: Convert the property graph to RDF using RDF_GRAPH_FROM_GRAPH_WORKSPACE.
 -- First, run in MAPPING_ONLY mode (dry run) to preview how each graph property maps to an RDF predicate URI.
 DO BEGIN
 	CALL "RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
-		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change to your user schema name 
+		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
-		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>',
+		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- change this to refer to your own user schema name, e.g. DA263_001
 		--MAPPING_IN => "AGENT"."MAPPING_TABLE",
 		"MAPPING_OUT" => o_mapping_table,
 		MAPPING_MODE => 'MAPPING_ONLY'		
@@ -704,7 +705,7 @@ SELECT *
 -- Create a view over the curated mapping table that substitutes your user schema name.
 -- IMPORTANT: Replace 'DA263_000' with your own user schema name in the SELECT clause.
 CREATE OR REPLACE VIEW "V_PG_TO_KG_MAPPING_TABLE" AS (
-	SELECT 'DA263_000' AS "GRAPH_WORKSPACE_SCHEMA_NAME", -- replace here
+	SELECT 'DA263_000' AS "GRAPH_WORKSPACE_SCHEMA_NAME", -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_TABLE_NAME", "GRAPH_WORKSPACE_FIELD_NAME", "GRAPH_WORKSPACE_FIELD_TYPE", "RDF_PROPERTY_TYPE", "RDF_LANGUAGE_TAG", "RDF_URI"
 	FROM "DA263_ADMIN"."PG_TO_KG_MAPPING_TABLE_09"
 );
@@ -713,9 +714,9 @@ CREATE OR REPLACE VIEW "V_PG_TO_KG_MAPPING_TABLE" AS (
 -- MAPPING_MODE => 'STRICT' means only the mappings in the input table are applied.
 -- IMPORTANT: Replace 'DA263_000' with your own user schema name in all three parameter values.
 CALL SYS."RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
-		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- replace here 
+		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
-		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- replace here
+		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- change this to refer to your own user schema name, e.g. DA263_001
 		"MAPPING_IN" => "V_PG_TO_KG_MAPPING_TABLE",
 		"MAPPING_OUT" => ?,
 		--REPLACE => TRUE,
@@ -734,7 +735,7 @@ SELECT * FROM SPARQL_TABLE('
 -- Retrieve a sample of raw triples from your named graph to confirm the conversion worked.
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?s ?p ?o 
-	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>
+	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH> # change this to refer to your own user schema name, e.g. DA263_001
 	WHERE {
 	  ?s ?p ?o .
 	}
@@ -746,7 +747,7 @@ SELECT * FROM SPARQL_TABLE('
 	PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	PREFIX te: <https://example.org/hana-metadata#>
 	SELECT *
-	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>
+	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH> # change this to refer to your own user schema name, e.g. DA263_001
 	WHERE {
 	  ?s rdf:type te:DatabaseObject.
 		?s rdfs:label ?l .
@@ -854,7 +855,7 @@ SELECT * FROM SPARQL_TABLE('
     PREFIX hana: <https://example.org/hana-metadata#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     SELECT ?label ?schema ?type ?description
-    FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>  # change DA263_000 to your schema name
+    FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>  # change this to refer to your own user schema name, e.g. DA263_001
     WHERE {
       ?obj a hana:DatabaseObject ;
            rdfs:label ?label ;

@@ -28,7 +28,7 @@ The result shows the four `ERGAST_2025` tables that `V_RESULTS` joins — this d
 ```sql
 SELECT * 
 	FROM SYS."OBJECT_DEPENDENCIES" 
-	WHERE "DEPENDENT_SCHEMA_NAME" = 'DA263_000'
+	WHERE "DEPENDENT_SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
 		AND "DEPENDENT_OBJECT_NAME" = 'V_RESULTS';
 ```
 
@@ -47,7 +47,7 @@ Create a small dummy RDF graph to get familiar with SPARQL syntax. The `INSERT D
 CALL SYS.SPARQL_EXECUTE('
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX te: <http://teched2026/DA263_000/> # change this
+    PREFIX te: <http://teched2026/DA263_000/> # change this to refer to your own user schema name, e.g. DA263_001
     INSERT DATA {
     GRAPH te:dummy-graph {
         te:participant_1 rdf:type te:participant .
@@ -218,7 +218,7 @@ Inspect the graph schema: each row describes one property (column) of a vertex o
 ```sql
 SELECT * FROM SYS."GRAPH_WORKSPACE_COLUMNS"
 	WHERE "WORKSPACE_NAME" = 'OBJECT_INDEX_PROPERTY_GRAPH'
-		AND "SCHEMA_NAME" = 'DA263_000'
+		AND "SCHEMA_NAME" = 'DA263_000' -- change this to refer to your own user schema name, e.g. DA263_001
 	ORDER BY "ENTITY_TYPE" DESC, "ENTITY_TABLE_NAME", "ENTITY_COLUMN_NAME";
 ```
 
@@ -229,7 +229,7 @@ First, run in `MAPPING_ONLY` mode (dry run) to preview how each graph property m
 ```sql
 DO BEGIN
 	CALL "RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
-		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change to your user schema name 
+		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
 		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>',
 		--MAPPING_IN => "AGENT"."MAPPING_TABLE",
@@ -272,9 +272,9 @@ Now run the actual RDF conversion using the curated mapping. `MAPPING_MODE => 'S
 
 ```sql
 CALL SYS."RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
-		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- replace here 
+		"GRAPH_WORKSPACE_SCHEMA_NAME" => 'DA263_000', -- change this to refer to your own user schema name, e.g. DA263_001
 		"GRAPH_WORKSPACE_NAME" => 'OBJECT_INDEX_PROPERTY_GRAPH', 
-		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- replace here
+		"TARGET_GRAPH_URI" => '<DA263_000.OBJECT_INDEX_RDF_GRAPH>', -- change this to refer to your own user schema name, e.g. DA263_001
 		"MAPPING_IN" => "V_PG_TO_KG_MAPPING_TABLE",
 		"MAPPING_OUT" => ?,
 		--REPLACE => TRUE,
@@ -299,7 +299,7 @@ Retrieve a sample of raw triples from your named graph to confirm the conversion
 ```sql
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?s ?p ?o 
-	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>
+	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH> # change this to refer to your own user schema name, e.g. DA263_001
 	WHERE {
 	  ?s ?p ?o .
 	}
@@ -314,7 +314,7 @@ SELECT * FROM SPARQL_TABLE('
 	PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	PREFIX te: <https://example.org/hana-metadata#>
 	SELECT *
-	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH>
+	FROM <DA263_000.OBJECT_INDEX_RDF_GRAPH> # change this to refer to your own user schema name, e.g. DA263_001
 	WHERE {
 	  ?s rdf:type te:DatabaseObject.
 		?s rdfs:label ?l .
