@@ -1,6 +1,6 @@
 # Exercise 2 - Data Exploration Tools
 
-In this exercise, we will create use the Data Exploration Tools and complete the wizard which creates an object index similar to what we created manually in exercise 1. This object index is used by two generated database procedures:
+In this exercise, we will use the `Data Exploration Tools` and complete a wizard which creates an object index similar to what we created manually in exercise 1. This object index is used by two generated database procedures:
 - "DATABASE_OBJECT_DISCOVERY_TOOL"( query, response );
 - "DATA_RETRIEVAL_TOOL"( query, response );
 
@@ -10,7 +10,7 @@ In this exercise, we will create use the Data Exploration Tools and complete the
 
 ## Open the Data Exploration Tools
 
-Choose **Instances** on the left panel in SAP HANA Cloud Central, open the context menu for your SAP HANA Cloud instance, and click on `Manage Data Exploration Tools`.
+Choose **Instances** on the left panel in SAP HANA Cloud Central, open the context menu (Click on the 3 dots ... under `Actions`) for your SAP HANA Cloud instance, and click on `Manage Data Exploration Tools`.
 
 ![](../ex2/images/SNAG-0007.png)
 
@@ -25,9 +25,10 @@ Click on `Create` to define a new tool pair.
 ![](../ex2/images/SNAG-0010.png)
 
 We will now create Data Exploration Tools using a wizard
+- For `Remote Sources`, choose `Select from existing remote sources`.
 - Select the remote source `DA263_AICORE_ORCHESTRATION` from the pick-list.
 - Enter `AGENT_000` (replace 000 with your student number, e.g. 001) as Tool Pair Name.
-- Keep the Schema `DA263_000` (replace 000 with your student number, e.g. 001)
+- Make sure the suggested schema matches your user schema, e.g. `DA263_001`.
 - Enter `ERGAST` as Index.
 
 ![](../ex2/images/SNAG-0011.png)
@@ -71,4 +72,4 @@ We have used the Data Exploration Tools in SAP HANA Cloud Central to create an i
 `DATA_RETRIEVAL_TOOL` takes a natural language query, generates SQL statements, and returns a response grounded in the retrieved data.
 
 
-Continue to - [Exercise 3 - Excercise 3 ](../ex3/README.md)
+Continue to - [Exercise 3 - Using SAP HANA Cloud via LangChain ](../ex3/README.md)
