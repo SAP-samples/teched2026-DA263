@@ -14,11 +14,15 @@ Choose **Instances** on the left panel in SAP HANA Cloud Central, open the conte
 
 ![](../ex2/images/SNAG-0007.png)
 
-Enter your database credentials if required
+**If required**, enter your database credentials. Otherwise, just proceed.
 <br>**Username** `DA263_000` (replace 000 with your student number, e.g. 001)
 <br>**Password** `welCome!26`
 
 ![](../ex2/images/SNAG-0008.png)
+
+Click on `Create` to define a new tool pair.
+
+![](../ex2/images/SNAG-0010.png)
 
 We will now create Data Exploration Tools using a wizard
 - Select the remote source `DA263_AICORE_ORCHESTRATION` from the pick-list.

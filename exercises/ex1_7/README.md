@@ -274,7 +274,7 @@ CREATE OR REPLACE VIEW "V_PG_TO_KG_MAPPING_TABLE" AS (
 
 Now run the actual RDF conversion using the curated mapping. `MAPPING_MODE => 'STRICT'` means only the mappings in the input table are applied.
 
-> **Important:** Replace `'DA263_000'` with your own user schema name in all three parameter values.
+> **Important:** Replace `'DA263_000'` with your own user schema name in all parameter values.
 
 ```sql
 CALL SYS."RDF_GRAPH_FROM_GRAPH_WORKSPACE" (
