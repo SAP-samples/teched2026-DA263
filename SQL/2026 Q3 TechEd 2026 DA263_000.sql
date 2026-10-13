@@ -10,9 +10,9 @@ SELECT * FROM "ERGAST_2025"."RACES" ORDER BY "date" DESC;
 SELECT * FROM "ERGAST_2025"."RESULTS"
 	WHERE "raceId" = 1144
 	ORDER BY "position" ASC NULLS LAST;
--- The result is sorted by finishing position. The driver with driverId 846 is in position 1 -- he won the race.
+-- The result is sorted by finishing position. The driver with driverId 846 is in position 1 -- they won the race.
 
--- Run the next query to look up his name.
+-- Run the next query to look up their name.
 SELECT * FROM "ERGAST_2025"."DRIVERS"
 	WHERE "driverId" = 846;
 -- It was Lando Norris. The DRIVERS table maps numeric driverIds to full driver names and nationalities.

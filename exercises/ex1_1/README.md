@@ -18,9 +18,9 @@ SELECT * FROM "ERGAST_2025"."RESULTS"
 	ORDER BY "position" ASC NULLS LAST;
 ```
 
-The result is sorted by finishing position. The driver with `driverId` 846 is in position 1 — he won the race.
+The result is sorted by finishing position. The driver with `driverId` 846 is in position 1 — they won the race.
 
-Run the next query to look up his name.
+Run the next query to look up their name.
 
 ```sql
 SELECT * FROM "ERGAST_2025"."DRIVERS"
