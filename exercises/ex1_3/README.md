@@ -1,7 +1,7 @@
 # Exercise 1.3 - Vector Embeddings and Semantic Search
 
 
-Fuzzy search works well for matching object names by keywords, but it cannot understand meaning. For example, searching for `'pilots'` would not match a table described as `"Formula 1 drivers"`. Semantic search solves this by converting text to a numeric vector (embedding) that captures meaning. Texts with similar meaning produce vectors that are close together in vector space. HANA Cloud includes built-in text embedding models that generate these vectors directly inside the database.
+Fuzzy search works well for matching object names by keywords, but it cannot understand meaning. For example, searching for `'pilots'` would not match a table described as `"Formula 1 drivers"`. Semantic search solves this by using a pre-trained model to convert text into an embedding (a dense numeric vector) that captures the meaning. Texts with similar meaning produce vectors that are close together in vector space. HANA Cloud includes built-in text embedding models that generate these vectors directly inside the database.
 
 HANA Cloud ships with two built-in text embedding models. Run the query to see them. In this exercise you will use `SAP_GXY.20250407`, which produces 768-dimensional vectors.
 

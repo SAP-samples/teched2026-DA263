@@ -1,3 +1,7 @@
+/*****************************************************
+** Exercise 1.1 - Exploring the Formula 1 Dataset
+*****************************************************/
+
 -- In this exercise, you will build an "Object Index" - a searchable catalog of database objects.
 -- An AI agent can query this index to discover relevant tables and views when answering a user's question in natural language.
 -- The source data lives in the schema "ERGAST_2025" and contains Formula 1 race data: results, drivers, constructors, circuits, and more.
@@ -19,7 +23,10 @@ SELECT * FROM "ERGAST_2025"."DRIVERS"
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.2 - Building the Object Index
+*****************************************************/
+
 -- HANA Cloud stores metadata about all database objects in system views under the SYS schema.
 -- The query below joins SYS.OBJECTS (all objects) with SYS.TABLES (table-specific metadata, including comments)
 -- to list all tables, views, and functions in ERGAST_2025 along with their descriptions.
@@ -78,10 +85,13 @@ SELECT "SCHEMA_NAME", "OBJECT_NAME", SCORE('drives' IN "OBJECT_NAME" FUZZY SEARC
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.3 - Vector Embeddings and Semantic Search
+*****************************************************/
+
 -- Fuzzy search works well for matching object names by keywords, but it cannot understand meaning.
 -- For example, searching for "pilots" would not match a table described as "Formula 1 drivers".
--- Semantic search solves this by converting text to a numeric vector (embedding) that captures meaning.
+-- Semantic search solves this by using a pre-trained model to convert text into an embedding (a dense numeric vector) that captures the meaning.
 -- Texts with similar meaning produce vectors that are close together in vector space.
 -- HANA Cloud includes built-in text embedding models that generate these vectors directly inside the database.
 
@@ -137,7 +147,10 @@ SELECT "COSINE_SIMILARITY"(
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.4 - Keeping Embeddings in Sync
+*****************************************************/
+
 -- So far you ran the CREATE_VECTOR_EMBEDDINGS procedure manually once.
 -- In production, new rows will be inserted and descriptions will change - the embeddings must stay in sync.
 -- There are two strategies:
@@ -225,7 +238,10 @@ SELECT "OBJECT_NAME", "DESCRIPTION", "DESCRIPTION_EMBEDDING"
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.5 - Cross-Encoder Reranking and the Semantic Search Function
+*****************************************************/
+
 -- You have now seen vector similarity search (fast, uses pre-computed embeddings).
 -- HANA Cloud also includes a Cross-Encoder model, which scores semantic similarity differently:
 -- it evaluates the query and each candidate text together in a single model pass, without pre-computed vectors.
@@ -252,19 +268,19 @@ SELECT "CROSS_ENCODE"('f1 pilots', "DESCRIPTION", 'SAP_CER.20250701') OVER () AS
 
 -- The query below implements this pattern. Examine both VECTOR_SCORE and RERANK_SCORE in the output.
 WITH candidates AS (
--- Stage 1: retrieve top-K candidates by cosine similarity
+    -- Stage 1: retrieve top-K candidates by cosine similarity
     SELECT TOP 10
         "OBJECT_NAME", "DESCRIPTION",
         "COSINE_SIMILARITY"("DESCRIPTION_EMBEDDING", "VECTOR_EMBEDDING"('f1 pilots', 'QUERY', 'SAP_GXY.20250407')) AS "VECTOR_SCORE"
     FROM "OBJECT_INDEX"
     ORDER BY "VECTOR_SCORE" DESC
-)
--- Stage 2: re-rank candidates with a cross-encoder
-SELECT TOP 5
-    "OBJECT_NAME", "DESCRIPTION",
-    "CROSS_ENCODE"('f1 pilots', "DESCRIPTION", 'SAP_CER.20250701') OVER () AS "RERANK_SCORE", "VECTOR_SCORE"
-FROM candidates
-ORDER BY "RERANK_SCORE" DESC;
+    )
+    -- Stage 2: re-rank candidates with a cross-encoder
+    SELECT TOP 5
+        "OBJECT_NAME", "DESCRIPTION",
+        "CROSS_ENCODE"('f1 pilots', "DESCRIPTION", 'SAP_CER.20250701') OVER () AS "RERANK_SCORE", "VECTOR_SCORE"
+    FROM candidates
+    ORDER BY "RERANK_SCORE" DESC;
 
 -- The two-stage search logic above is useful enough to wrap in a reusable function.
 -- F_SEMANTIC_SEARCH accepts a search query and optional parameters for candidate set size (candidateK)
@@ -313,7 +329,10 @@ SELECT * FROM "F_SEMANTIC_SEARCH"(searchQuery => 'f1 pilots', candidateK => 20, 
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.6 - LLM Integration via SAP AI Core
+*****************************************************/
+
 -- Next, you will create a view that enriches the raw RESULTS table with driver names, race names, and constructor names.
 -- This view will serve two purposes later in the exercise:
 --   1. You will use an LLM to auto-generate its description for the OBJECT_INDEX.
@@ -364,7 +383,10 @@ SELECT * FROM "REMOTE_SOURCES";
 
 -- Call the system procedure below to list all LLM models available through this connection.
 -- Note the model names (e.g. gpt-4.1, anthropic--claude-*) -- you will use them in subsequent queries.
-CALL SYS."GET_REMOTE_SOURCE_AI_MODELS"('DA263_AICORE_ORCHESTRATION', ?);
+CALL SYS."GET_REMOTE_SOURCE_AI_MODELS"(
+	REMOTE_SOURCE_NAME => 'DA263_AICORE_ORCHESTRATION', 
+	TABLE_RESULT => ?
+);
 
 -- The AI_TEXT_COMPLETION scalar function lets you call an LLM from inside a SQL query.
 -- It takes the prompt text, the model identifier, an optional schema name, and the remote source name.
@@ -498,7 +520,10 @@ END;
 
 
 
-/*********************************/
+/*****************************************************
+** Exercise 1.7 - Building the Knowledge Graph
+*****************************************************/
+
 -- The OBJECT_INDEX lets you find relevant database objects by name or semantic search.
 -- But it does not capture how objects relate to each other.
 -- In this section you will build a Knowledge Graph that models:
@@ -554,11 +579,12 @@ CALL SYS.SPARQL_EXECUTE('
 'Accept: application/sparql-results+turtle Content-Type: application/sparql-query', ?, ?);
 
 -- Run this SPARQL query to count how many triples exist per named graph.
+-- For each named graph ?graph, the pattern _:subject ?p _:object matches any triple in the graph. The number of triples are counted per graph.
 -- You should see one graph (te:dummy-graph) with 5 triples.
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?graph (COUNT(*) as ?num_triples)
 	WHERE {
-	  GRAPH ?graph { [?p []] }
+	  GRAPH ?graph { _:subject ?p _:object . }
 	}
 	GROUP BY ?graph
 ');
@@ -824,6 +850,9 @@ SELECT * FROM SPARQL_TABLE('
 ');
 
 
+/*****************************************************
+** Exercise 1.8 - End-to-End Verification
+*****************************************************/
 --------------------------
 -- SUMMARY: End-to-End Verification
 -- Run the queries in this section to confirm that all components of the exercise are working correctly.
