@@ -30,19 +30,19 @@ The query below implements this pattern. Examine both `VECTOR_SCORE` and `RERANK
 
 ```sql
 WITH candidates AS (
--- Stage 1: retrieve top-K candidates by cosine similarity
+    -- Stage 1: retrieve top-K candidates by cosine similarity
     SELECT TOP 10
         "OBJECT_NAME", "DESCRIPTION",
         "COSINE_SIMILARITY"("DESCRIPTION_EMBEDDING", "VECTOR_EMBEDDING"('f1 pilots', 'QUERY', 'SAP_GXY.20250407')) AS "VECTOR_SCORE"
     FROM "OBJECT_INDEX"
     ORDER BY "VECTOR_SCORE" DESC
-)
--- Stage 2: re-rank candidates with a cross-encoder
-SELECT TOP 5
-    "OBJECT_NAME", "DESCRIPTION",
-    "CROSS_ENCODE"('f1 pilots', "DESCRIPTION", 'SAP_CER.20250701') OVER () AS "RERANK_SCORE", "VECTOR_SCORE"
-FROM candidates
-ORDER BY "RERANK_SCORE" DESC;
+    )
+    -- Stage 2: re-rank candidates with a cross-encoder
+    SELECT TOP 5
+        "OBJECT_NAME", "DESCRIPTION",
+        "CROSS_ENCODE"('f1 pilots', "DESCRIPTION", 'SAP_CER.20250701') OVER () AS "RERANK_SCORE", "VECTOR_SCORE"
+    FROM candidates
+    ORDER BY "RERANK_SCORE" DESC;
 ```
 
 ## The F_SEMANTIC_SEARCH Function

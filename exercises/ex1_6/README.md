@@ -63,7 +63,10 @@ The remote source is named `DA263_AICORE_ORCHESTRATION`.
 Call the system procedure below to list all LLM models available through this connection. Note the model names (e.g. `gpt-4.1`, `anthropic--claude-*`) — you will use them in subsequent queries.
 
 ```sql
-CALL SYS."GET_REMOTE_SOURCE_AI_MODELS"('DA263_AICORE_ORCHESTRATION', ?);
+CALL SYS."GET_REMOTE_SOURCE_AI_MODELS"(
+	REMOTE_SOURCE_NAME => 'DA263_AICORE_ORCHESTRATION', 
+	TABLE_RESULT => ?
+);
 ```
 
 The `AI_TEXT_COMPLETION` scalar function lets you call an LLM from inside a SQL query. It takes the prompt text, the model identifier, an optional schema name, and the remote source name. The result is the LLM's text response. Run the example below to verify the connection works.

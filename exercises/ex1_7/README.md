@@ -60,13 +60,13 @@ CALL SYS.SPARQL_EXECUTE('
 'Accept: application/sparql-results+turtle Content-Type: application/sparql-query', ?, ?);
 ```
 
-Run this SPARQL query to count how many triples exist per named graph. You should see one graph (`te:dummy-graph`) with 5 triples.
+Run this SPARQL query to count how many triples exist per named graph. For each named graph ?graph, the pattern _:subject ?p _:object matches any triple in the graph. The number of triples are counted per graph. You should see one graph (`te:dummy-graph`) with 5 triples.
 
 ```sql
 SELECT * FROM SPARQL_TABLE('
 	SELECT ?graph (COUNT(*) as ?num_triples)
 	WHERE {
-	  GRAPH ?graph { [?p []] }
+	  GRAPH ?graph { _:subject ?p _:object . }
 	}
 	GROUP BY ?graph
 ');

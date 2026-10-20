@@ -1,6 +1,10 @@
+/*********************************************************
+** Exercise 2 - Data Exploration Tools
+*********************************************************/
+
 -- Prerequisite: complete the Data Exploration Tools wizard (Exercise 2) using SAP HANA Cloud Central
 
--- Tool Pair Name: AGENT_000
+-- Tool Pair Name: AGENT_000 (replace AGENT_000 with your tool pair name, e.g. AGENT_001)
 -- Index Name: ERGAST
 
 -- The Wizard creates two procedures:
@@ -8,9 +12,11 @@
 -- "DATA_RETRIEVAL_TOOL_AGENT_000"( query, response );
 
 -- Run this procedure to identify relevant database objects for a natural language query.
+-- ! change the procedure name to refer to your procedure, e.g. DATABASE_OBJECT_DISCOVERY_TOOL_AGENT_001
 CALL "DATABASE_OBJECT_DISCOVERY_TOOL_AGENT_000"( 'f1 pilots teams race results', ? );
 
 -- Run this procedure to retrieve data and get an LLM response.
+-- ! change the procedure name to refer to your procedure, e.g. DATA_RETRIEVAL_TOOL_AGENT_001
 CALL "DATA_RETRIEVAL_TOOL_AGENT_000"( 'which driver won the most races? how many? list the last 3. show me the sql you used.', ? );
 
 -- The wizard has created an object index that is used by the two procedures.
