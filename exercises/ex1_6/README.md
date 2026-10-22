@@ -103,7 +103,7 @@ SELECT "DA263_ADMIN"."F_GET_OBJECT_DEFINITION"(
 Now call `F_GET_OBJECT_DEFINITION` for all objects in the `OBJECT_INDEX`. Review the `DEFINITION` column — this is the text you will pass to the LLM as context for generating descriptions.
 
 ```sql
-SELECT "SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE", "DESCRIPTION",
+SELECT "SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE",
 	"DA263_ADMIN"."F_GET_OBJECT_DEFINITION"("SCHEMA_NAME", "OBJECT_NAME", "OBJECT_TYPE")."DEFINITION" AS "DEFINITION"
 	FROM "OBJECT_INDEX";
 ```
@@ -209,6 +209,8 @@ DO BEGIN
 	);
 END;
 ```
+
+Review the data in the `CONTENT` column. It is a JSON document which contains 3 SQL queries and their description.
 
 Continue to - [Exercise 1.7 - Building the Knowledge Graph](../ex1_7/README.md)
 
