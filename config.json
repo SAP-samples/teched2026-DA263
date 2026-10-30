@@ -1,0 +1,7 @@
+{
+  "AICORE_AUTH_URL": "https://da263.authentication.eu10.hana.ondemand.com",
+  "AICORE_CLIENT_ID": "sb-ad6eff21-5147-4a31-b70b-3583c21d7157!b724517|aicore!b540",
+  "AICORE_CLIENT_SECRET": "3088fdfc-61fd-4465-bb39-cf33ad03a621$PCZ04vx3DoAsD_Dl0VYfAVWyXlTbMVcTUW2-Jv3y554=",
+  "AICORE_RESOURCE_GROUP": "default",
+  "AICORE_BASE_URL": "https://api.ai.prod.eu-central-1.aws.ml.hana.ondemand.com/v2"
+}
